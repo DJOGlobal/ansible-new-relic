@@ -1,0 +1,17 @@
+---
+
+  newrelic_repo_url: 'http://apt.newrelic.com/debian/'
+  newrelic_repo_key_id: '548C16BF'
+  newrelic_repo_key_url: 'https://download.newrelic.com/{{newrelic_repo_key_id}}.gpg'
+
+  newrelic_license_key: ''
+
+  newrelic_loglevel: 'info'
+  newrelic_logfile: '/var/log/newrelic/nrsysmond.log'
+  newrelic_proxy: false
+  newrelic_ssl: "false"
+  newrelic_ssl_ca_bundle: false
+  newrelic_ssl_ca_path: false
+  newrelic_pidfile: /var/run/newrelic/nrsysmond.pid
+  newrelic_collector_host: collector.newrelic.com
+  newrelic_timeout: 30
