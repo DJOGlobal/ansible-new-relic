@@ -1,10 +1,10 @@
 ---
 
   newrelic_repo_url: 'http://apt.newrelic.com/debian/'
-  newrelic_repo_key_id: '548C16BF'
+#  newrelic_repo_key_id: '548C16BF'
   newrelic_repo_key_url: 'https://download.newrelic.com/{{newrelic_repo_key_id}}.gpg'
 
-  newrelic_license_key: ''
+#  newrelic_license_key: ''
 
   newrelic_loglevel: 'info'
   newrelic_logfile: '/var/log/newrelic/nrsysmond.log'
