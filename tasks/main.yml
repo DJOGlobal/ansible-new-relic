@@ -1,22 +1,6 @@
 ---
 
-- name: newrelic | add new relic repo key
-  apt_key: url='{{newrelic_repo_key_url}}' id='{{newrelic_repo_key_id}}' state='present'
+- include: install.yml
 
-- name: newrelic | add new relic repository
-  apt_repository: repo='deb {{newrelic_repo_url}} newrelic non-free' state='present'
-  register: newrelic_repo
-
-- name: newrelic | apt-get update
-  apt: update_cache='yes'
-  when: newrelic_repo | changed
-
-- name: newrelic | install new relic sysmond
-  apt: name='newrelic-sysmond' state='latest' update_cache='yes' cache_valid_time='3600'
-
-- name: newrelic | overlay new relic configuration
-  template: src='nrsysmond.cfg.j2' dest='/etc/newrelic/nrsysmond.cfg' owner='newrelic' group='newrelic' mode='0640'
-
-- name: newrelic | start service and enable on boot
-  service: name='newrelic-sysmond' state='restarted' enabled='yes'
-  ignore_errors: yes
+- include: run.yml
+  when: run == true
