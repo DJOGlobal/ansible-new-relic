@@ -1,4 +1,9 @@
 ---
-- name: newrelic | overlay new relic configuration
-  template: src='nrsysmond.cfg.j2' dest='/etc/newrelic/nrsysmond.cfg' owner='newrelic' group='newrelic' mode='0640'
+- name: copy nrsysmond.cfg
+  template:
+    src: 'nrsysmond.cfg.j2'
+    dest: '/etc/newrelic/nrsysmond.cfg'
+    owner: 'newrelic'
+    group: 'newrelic'
+    mode: '0640'
   notify: restart newrelic
