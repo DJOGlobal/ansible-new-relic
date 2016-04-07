@@ -5,6 +5,14 @@ ROLE_NAME = $(shell basename $${PWD%/*})
 CONTAINER_NAME = "$(BASE_DISTRO)-$(BASE_VERSION)-$(ROLE_NAME)"
 CONTAINER_ID_FILE = "$(BASE_DISTRO)-$(BASE_VERSION)-$(ROLE_NAME).cid"
 
+# CircleCI uses Docker's lxc driver which doesn't support docker exec yet
+# https://circleci.com/docs/docker/#docker-exec
+ifndef CIRCLECI
+	DOCKER_EXEC = docker exec --tty `cat $(CONTAINER_ID_FILE)` env TERM=xterm
+else
+	DOCKER_EXEC = sudo lxc-attach -n `cat $(CONTAINER_ID_FILE)` -- bash -c
+endif
+
 .DEFAULT_GOAL := help
 .PHONY: build clean help run shell test test-syntax test-execute test-idempotent test-serverspec
 
@@ -31,15 +39,15 @@ shell: ## Drop into container shell
 
 test-syntax: ## Ansible syntax check on running container
 	@echo "Running Ansible syntax check..."
-	@docker exec --tty `cat $(CONTAINER_ID_FILE)` env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check
+	@$(DOCKER_EXEC) ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check
 
 test-execute: ## Execute Ansible playbook on running container
 	@echo "Running Ansible test playbook..."
-	@docker exec --tty `cat $(CONTAINER_ID_FILE)` env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml
+	@$(DOCKER_EXEC) ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml
 
 test-idempotent: ## Execute Ansible playbook with check for changes
 	@echo "Running Ansible a second time to confirm no changes..."
-	@docker exec `cat $(CONTAINER_ID_FILE)` ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml \
+	@$(DOCKER_EXEC) ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml \
     | grep 'changed=0.*failed=0' \
     && ((echo 'Idempotence test: pass' && exit 0) \
     		|| (echo 'Idempotence test: fail' && exit 1))
