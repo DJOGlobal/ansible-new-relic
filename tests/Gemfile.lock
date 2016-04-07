@@ -39,6 +39,8 @@ GEM
       net-ssh (>= 2.7, < 4.0)
       net-telnet
       sfl
+    specinfra-backend-docker_lxc (0.2.0)
+      specinfra (~> 2.13)
 
 PLATFORMS
   ruby
@@ -46,3 +48,4 @@ PLATFORMS
 DEPENDENCIES
   docker-api
   serverspec
+  specinfra-backend-docker_lxc (~> 0.2.0)
