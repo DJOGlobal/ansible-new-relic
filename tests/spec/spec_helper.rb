@@ -1,5 +1,6 @@
 require 'serverspec'
 require 'docker'
+require 'specinfra/backend/docker_lxc' if ENV['CIRCLECI']
 
 container_id = ENV['CONTAINER_ID']
 
