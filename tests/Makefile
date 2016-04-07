@@ -11,6 +11,8 @@ ifndef CIRCLECI
 	DOCKER_EXEC = docker exec --tty `cat $(CONTAINER_ID_FILE)` env TERM=xterm
 else
 	DOCKER_EXEC = sudo lxc-attach -n `cat $(CONTAINER_ID_FILE)` -- bash -c
+	DOCKER_EXEC_PREFIX = """
+	DOCKER_EXEC_SUFFIX = """
 endif
 
 .DEFAULT_GOAL := help
@@ -39,18 +41,18 @@ shell: ## Drop into container shell
 
 test-syntax: ## Ansible syntax check on running container
 	@echo "Running Ansible syntax check..."
-	@$(DOCKER_EXEC) ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check
+	$(DOCKER_EXEC) $(DOCKER_EXEC_PREFIX)ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check$(DOCKER_EXEC_SUFFIX)
 
 test-execute: ## Execute Ansible playbook on running container
 	@echo "Running Ansible test playbook..."
-	@$(DOCKER_EXEC) ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml
+	@$(DOCKER_EXEC) $(DOCKER_EXEC_PREFIX)ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml$(DOCKER_EXEC_SUFFIX)
 
 test-idempotent: ## Execute Ansible playbook with check for changes
 	@echo "Running Ansible a second time to confirm no changes..."
-	@$(DOCKER_EXEC) ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml \
+	@$(DOCKER_EXEC) $(DOCKER_EXEC_PREFIX)ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml \
     | grep 'changed=0.*failed=0' \
     && ((echo 'Idempotence test: pass' && exit 0) \
-    		|| (echo 'Idempotence test: fail' && exit 1))
+    		|| (echo 'Idempotence test: fail' && exit 1))$(DOCKER_EXEC_SUFFIX)
 
 test-serverspec: ## Excute serverspec specs on running container
 	@echo "Running Serverspect tests..."
