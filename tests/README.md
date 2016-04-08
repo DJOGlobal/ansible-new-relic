@@ -4,9 +4,20 @@ This role includes integration tests that run in Docker containers.
 
 ## Requirements
 
+### Docker
+
 You will need a working Docker client installed and configured to execute tests. See [Docker Basics](DockerBasics.md) for details on getting setup.
 
-Integration tests are Serverspec based which has Ruby gem requirements.
+Once you have a working Docker setup you will need to build an Ansible capable image from the included Dockerfile:
+
+```
+> cd tests
+> make build
+```
+
+### Serverspec
+
+Integration tests are [Serverspec](http://serverspec.org/) based which has Ruby gem requirements.
 
 ```
 > cd tests
@@ -31,6 +42,8 @@ test-serverspec                Excute serverspec specs on running container
 test-syntax                    Ansible syntax check on running container
 test                           Execute all tests
 ```
+
+Tests mount the working directory on your laptop into the container. Changes you make on your laptop will be reflected on the target container without restarting it.
 
 ## CI
 
