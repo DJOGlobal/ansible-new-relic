@@ -1,12 +1,16 @@
 # Docker Laptop Basics
 
-- Ubuntu
+Ubuntu
+------
 
 As a Linux (and thus superior) OS, all you have to do is install it.
 
 `sudo apt-get install docker.io`
 
-- OS X
+
+OS X
+----
+
 Since there is no OS X native option for running containers you'll need to install a few things to use a Linux based virtual machine.
 
 * [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
