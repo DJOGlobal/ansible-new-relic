@@ -1,8 +1,0 @@
-source 'https://rubygems.org'
-
-gem 'serverspec'
-gem 'docker-api'
-
-group :ci do
-  gem 'specinfra-backend-docker_lxc', '~> 0.2.0'
-end

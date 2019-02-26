@@ -1,6 +1,0 @@
----
-
-- include: install.yml
-
-- include: run.yml
-  when: run == true

@@ -1,10 +1,2 @@
-# Ansible role for New Relic
-
-## Purpose
-
-
-## Example
-
-## Variable
-There are two variables that need to be set: `newrelic_repo_key_id` &
-`newrelic_license_key`
+# [deprecated] ansible-new-relic
+If you would like this code, please go to https://gitlab.com/stable-orbit/ansible-new-relic
